@@ -1,0 +1,19 @@
+{
+	"name": "truefusion/decapitated",
+	"description": "API-first CMS Library",
+	"type": "library",
+	"license": "MIT",
+	"homepage": "https://github.com/truefusion/decapitated",
+	"autoload": {
+		"psr-4": {
+			"Decapitated\\": "src/"
+		}
+	},
+	"support": {
+		"issues": "https://github.com/truefusion/decapitated/issues",
+		"source": "https://github.com/truefusion/decapitated"
+	},
+	"require": {
+		"php": ">=7.4"
+	}
+}
