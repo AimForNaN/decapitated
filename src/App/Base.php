@@ -2,13 +2,15 @@
 
     namespace Decapitated\App {
 		use \Decapitated\Model\Base as Model;
-		use \Decapitated\View\{Base as View, Factory as ViewFactory, Json as JsonView};
+		use \Decapitated\View\{Factory as ViewFactory, Json as JsonView};
+		use function \Decapitated\Helpers\view;
 
         /**
          *
          */
         class Base {
 			protected $data = [];
+			static public $views = '.';
 
             function __construct(Array $opts = []) {
 				$opts = array_merge([
@@ -22,7 +24,7 @@
             }
 
 			protected function __autoload() {
-				$base = $this->views;
+				$base = static::$views;
 				spl_autoload_register(function ($class) use ($base) {
 					$file = ViewFactory::parsePath($class . '.php', $base);
 					if (file_exists($file)) {
@@ -43,12 +45,14 @@
 				return $this->view($this->view, $this->model->toArray());
 			}
 
-			public function view($view, $model = []) {
-				$view = ViewFactory::fromString(
-					ViewFactory::parsePath($view, $this->views)
-				);
+			static public function view($view, $model = []) {
+				if (!empty($view)) {
+					$view = ViewFactory::fromString(
+						ViewFactory::parsePath($view, static::$views)
+					);
 
-				return $view($model, $this);
+					return $view($model);
+				}
 			}
         }
     }

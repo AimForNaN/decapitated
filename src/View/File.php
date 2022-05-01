@@ -13,7 +13,7 @@
 				$this->path = $path;
 			}
 
-			function __invoke(Array $data, $app) {
+			function __invoke(Array $data) {
 				$data = new Model($data);
 
 				ob_start();

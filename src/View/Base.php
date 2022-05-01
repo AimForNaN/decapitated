@@ -5,6 +5,6 @@
 		 *
 		 */
 		abstract class Base {
-			abstract function __invoke(Array $data, $app);
+			abstract function __invoke(Array $data);
 		}
 	}

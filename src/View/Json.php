@@ -5,7 +5,7 @@
 		 *
 		 */
 		class Json extends Base {
-			function __invoke(Array $data, $app) {
+			function __invoke(Array $data) {
 				return json_encode($data);
 			}
 		}
