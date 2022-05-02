@@ -5,9 +5,6 @@
 	"license": "MIT",
 	"homepage": "https://github.com/truefusion/decapitated",
 	"autoload": {
-		"files": [
-			"src/helpers.php"
-		],
 		"psr-4": {
 			"Decapitated\\": "src/"
 		}

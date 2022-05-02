@@ -16,14 +16,14 @@
 			function __invoke(Array $data) {
 				$data = new Model($data);
 
+				// HACK: Meh, easiest way to include helpers...
+				include_once(__DIR__ . '/../helpers.php');
+
 				ob_start();
 				if (file_exists($this->path)) {
 					include $this->path;
 				}
-				$output = ob_get_contents();
-				ob_end_clean();
-
-				return $output;
+				return ob_get_clean();
 			}
 		}
 	}

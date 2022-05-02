@@ -1,2 +1,2 @@
-<?= $app->view('Components/SiteName.php'); ?>
+<?= view('Components/SiteName.php'); ?>
 <?= $data->hello; ?>

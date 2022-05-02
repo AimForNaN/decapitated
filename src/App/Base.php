@@ -3,7 +3,6 @@
     namespace Decapitated\App {
 		use \Decapitated\Model\Base as Model;
 		use \Decapitated\View\{Factory as ViewFactory, Json as JsonView};
-		use function \Decapitated\Helpers\view;
 
         /**
          *
@@ -45,7 +44,7 @@
 				return $this->view($this->view, $this->model->toArray());
 			}
 
-			static public function view($view, $model = []) {
+			static public function view($view = null, $model = []) {
 				if (!empty($view)) {
 					$view = ViewFactory::fromString(
 						ViewFactory::parsePath($view, static::$views)

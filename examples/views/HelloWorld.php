@@ -1,8 +1,6 @@
 <?php
 
-	use \Decapitated\View\File as View;
-
-	class HelloWorld extends View {
+	class HelloWorld extends \Decapitated\View\File {
 		function __construct() {
 			parent::__construct(__DIR__ . '/index.php');
 		}
