@@ -3,12 +3,12 @@
 	require_once './vendor/autoload.php';
 	use Decapitated\App\Base as App;
 
-	App::$views = './views';
+	App::addNS('views', realpath(__DIR__ . '/views'));
 	$app = new App([
 		'model' => [
 			'hello' => 'world',
 		],
-		'view' => 'HelloWorld',
+		'view' => 'views::HelloWorld',
 	]);
 
 	// Use model provided in options

@@ -14,6 +14,7 @@
 		"source": "https://github.com/truefusion/decapitated"
 	},
 	"require": {
-		"php": ">=7.4"
+		"php": ">=7.4",
+		"league/plates": "^3.4"
 	}
 }

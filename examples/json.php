@@ -5,7 +5,6 @@
 	require_once './vendor/autoload.php';
 	use Decapitated\App\Base as App;
 
-	App::$views = './views';
 	$app = new App([
 		'model' => [
 			'hello' => 'world',

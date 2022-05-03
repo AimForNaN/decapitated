@@ -2,55 +2,58 @@
 
     namespace Decapitated\App {
 		use \Decapitated\Model\Base as Model;
-		use \Decapitated\View\{Factory as ViewFactory, Json as JsonView};
 
         /**
          *
          */
         class Base {
 			protected $data = [];
-			static public $views = '.';
+			static protected $engine = null;
 
             function __construct(Array $opts = []) {
 				$opts = array_merge([
 					'model' => [],
-					'view' => JsonView::class,
-					'views' => '.',
+					'view' => 'json',
 				], $opts);
 				$this->data = new Model($opts);
 
-				$this->__autoload();
+				static::init();
             }
-
-			protected function __autoload() {
-				$base = static::$views;
-				spl_autoload_register(function ($class) use ($base) {
-					$file = ViewFactory::parsePath($class . '.php', $base);
-					if (file_exists($file)) {
-						require_once($file);
-					}
-				});
-			}
 
 			public function __get($key) {
 				return $this->data->{$key};
 			}
 
-            public function __invoke(Array $model = []) {
-				echo $this->view($this->view, $model);
+            public function __invoke($model = [], $view = null) {
+				echo static::view($view ?? $this->view, $model);
             }
 
 			public function __toString() {
-				return $this->view($this->view, $this->model->toArray());
+				return static::view($this->view, $this->model);
+			}
+
+			static public function addNS(string $namespace, string $path, bool $fallback = false) {
+				static::init();
+				static::$engine->addFolder($namespace, $path, $fallback);
+			}
+
+			static protected function init() {
+				if (!isset(static::$engine)) {
+					static::$engine = new \League\Plates\Engine(realpath(__DIR__ . '/../Views'));
+				}
 			}
 
 			static public function view($view = null, $model = []) {
 				if (!empty($view)) {
-					$view = ViewFactory::fromString(
-						ViewFactory::parsePath($view, static::$views)
-					);
+					static::init();
 
-					return $view($model);
+					if (!($model instanceof Model) && is_array($model)) {
+						$model = new Model($model);
+					}
+
+					return static::$engine->render($view, [
+						'data' => $model,
+					]);
 				}
 			}
         }
