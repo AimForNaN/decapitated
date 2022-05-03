@@ -3,21 +3,25 @@
     namespace Decapitated\App {
 		use \Decapitated\Model\Base as Model;
 
-        /**
+        /*!
          *
          */
         class Base {
 			protected $data = [];
-			static protected $engine = null;
+			protected $engine = null;
+			static protected $ns = [];
 
             function __construct(Array $opts = []) {
 				$opts = array_merge([
 					'model' => [],
 					'view' => 'decapitated::json',
+					'views' => '.',
 				], $opts);
 				$this->data = new Model($opts);
 
-				static::init();
+				$this->engine = new Engine($this->views);
+				$this->addNS('decapitated', realpath(__DIR__ . '/../Views'));
+				$this->registerPaths();
             }
 
 			public function __get($key) {
@@ -25,34 +29,30 @@
 			}
 
             public function __invoke($model = [], $view = null) {
-				echo static::view($view ?? $this->view, $model);
+				echo $this->render($view ?? $this->view, $model);
             }
 
 			public function __toString() {
-				return static::view($this->view, $this->model);
+				return $this->render($this->view, $this->model);
 			}
 
 			static public function addNS(string $namespace, string $path, bool $fallback = false) {
-				static::init();
-				static::$engine->addFolder($namespace, $path, $fallback);
+				static::$ns[$namespace] = $path;
 			}
 
-			static protected function init() {
-				if (!isset(static::$engine)) {
-					static::$engine = new \League\Plates\Engine();
-					static::addNS('decapitated', realpath(__DIR__ . '/../Views'));
+			public function registerPaths() {
+				foreach (static::$ns as $ns => $path) {
+					$this->engine->addFolder($ns, $path);
 				}
 			}
 
-			static public function view($view = null, $model = []) {
+			public function render($view = null, $model = []) {
 				if (!empty($view)) {
-					static::init();
-
 					if (!($model instanceof Model) && is_array($model)) {
 						$model = new Model($model);
 					}
 
-					return static::$engine->render($view, [
+					return $this->engine->render($view, [
 						'data' => $model,
 					]);
 				}
