@@ -13,7 +13,7 @@
             function __construct(Array $opts = []) {
 				$opts = array_merge([
 					'model' => [],
-					'view' => 'json',
+					'view' => 'decapitated::json',
 				], $opts);
 				$this->data = new Model($opts);
 
@@ -39,7 +39,8 @@
 
 			static protected function init() {
 				if (!isset(static::$engine)) {
-					static::$engine = new \League\Plates\Engine(realpath(__DIR__ . '/../Views'));
+					static::$engine = new \League\Plates\Engine();
+					static::addNS('decapitated', realpath(__DIR__ . '/../Views'));
 				}
 			}
 
