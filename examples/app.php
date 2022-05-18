@@ -4,6 +4,7 @@
 	use Decapitated\App\Base as App;
 
 	App::addNS('views', realpath(__DIR__ . '/views'));
+
 	$app = new App([
 		'model' => [
 			'hello' => 'world',
@@ -15,6 +16,6 @@
 	echo $app;
 
 	// Override model
-	$app([
+	echo $app([
 		'hello' => 'user',
 	]);

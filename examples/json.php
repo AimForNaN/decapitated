@@ -15,6 +15,6 @@
 	echo $app;
 
 	// Override model
-	$app([
+	echo $app([
 		'hello' => 'user',
 	]);

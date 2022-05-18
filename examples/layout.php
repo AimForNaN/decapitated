@@ -8,7 +8,7 @@
 
 	$app = new App();
 
-	$app([
+	echo $app([
 		'hello' => 'user',
 		'title' => 'Aim For NaN',
 	], 'views::HelloLayout');

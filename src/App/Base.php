@@ -29,7 +29,7 @@
 			}
 
             public function __invoke($model = [], $view = null) {
-				echo $this->render($view ?? $this->view, $model);
+				return $this->render($view ?? $this->view, $model);
             }
 
 			public function __toString() {
