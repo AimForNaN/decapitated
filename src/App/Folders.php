@@ -8,10 +8,9 @@
             static protected $folders = [];
 
             static public function add($name, $path, $fallback = false) {
-                if (static::exists($name)) {
-                    throw new \LogicException('The template folder "' . $name . '" is already being used.');
-                }
-
+                // if (static::exists($name)) {
+                //     throw new \LogicException('The template folder "' . $name . '" is already being used.');
+                // }
                 static::$folders[$name] = new \League\Plates\Template\Folder($name, $path, $fallback);
             }
 
