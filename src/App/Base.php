@@ -21,7 +21,6 @@
 
 				$this->engine = new Engine($this->views);
 				$this->addNS('decapitated', realpath(__DIR__ . '/../Views'));
-				$this->registerPaths();
             }
 
 			public function __get($key) {
@@ -37,13 +36,7 @@
 			}
 
 			static public function addNS(string $namespace, string $path, bool $fallback = false) {
-				static::$ns[$namespace] = $path;
-			}
-
-			public function registerPaths() {
-				foreach (static::$ns as $ns => $path) {
-					$this->engine->addFolder($ns, $path);
-				}
+				Folders::add($namespace, $path, $fallback);
 			}
 
 			public function render($view = null, $model = []) {
