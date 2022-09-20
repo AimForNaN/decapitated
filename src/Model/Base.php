@@ -4,7 +4,7 @@
         /*!
          *
          */
-        class Base implements \ArrayAccess, \Countable, \JsonSerializable  {
+        class Base implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable  {
 			protected $data = [];
 			protected $delimiter = '/';
 
@@ -30,12 +30,24 @@
 				return count($this->data);
 			}
 
+            public function current() {
+				return \current($this->data);
+			}
+
+            public function key() {
+				return \key($this->data);
+			}
+
+            public function next() {
+				\next($this->data);
+			}
+
 			public function offsetExists($offset): bool {
 				$find = $this->offsetGet($offset);
 		        return isset($find);
 		    }
 
-			public function offsetGet($offset): mixed {
+			public function offsetGet($offset) {
 				$data = $this->data;
 				if (!is_null($offset)) {
 					$offset = array_filter(explode($this->delimiter, (string)$offset));
@@ -59,8 +71,12 @@
 			public function offsetUnset($offset): void {
 		    }
 
-			public function jsonSerialize(): mixed {
+			public function jsonSerialize() {
 				return $this->data;
+			}
+
+            public function rewind() {
+				\reset($this->data);
 			}
 
 			protected function setData(Array &$data = []) {
@@ -69,6 +85,10 @@
 
 			public function toArray() {
 				return $this->data;
+			}
+
+            public function valid () {
+				return $this->offsetExists(\key($this->data));
 			}
         }
     }
