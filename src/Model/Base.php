@@ -49,8 +49,8 @@
 
 			public function offsetGet($offset) {
 				$data = $this->data;
-				if (!is_null($offset)) {
-					$offset = array_filter(explode($this->delimiter, (string)$offset));
+				if (!\is_null($offset)) {
+					$offset = \array_filter(\explode($this->delimiter, (string)$offset));
 					foreach ($offset as $key) {
 						if (isset($data[$key])) {
 							$data = $data[$key];
@@ -58,17 +58,17 @@
 							$data = null;
 						}
 					}
-					if (is_array($data)) {
+					if (\is_array($data)) {
 						return new static($data);
 					}
 				}
 				return $data;
 		    }
 
-			public function offsetSet($offset, $value): void {
+			public function offsetSet($offset, $value) {
 		    }
 
-			public function offsetUnset($offset): void {
+			public function offsetUnset($offset) {
 		    }
 
 			public function jsonSerialize() {
@@ -88,7 +88,8 @@
 			}
 
             public function valid () {
-				return $this->offsetExists(\key($this->data));
+                $key = \key($this->data);
+				return isset($this->data[$key]);
 			}
         }
     }

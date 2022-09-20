@@ -30,7 +30,7 @@
 		        return isset($find);
 		    }
 
-			public function offsetGet($offset): mixed {
+			public function offsetGet($offset) {
 				$data = $this->data;
 				if (!is_null($offset)) {
 					$offset = array_filter(explode($this->delimiter, (string)$offset));
@@ -50,7 +50,7 @@
 				return $data;
 		    }
 
-			public function offsetSet($offset, $value): void {
+			public function offsetSet($offset, $value) {
 				if (is_null($offset)) {
 					$this->data[] = $value;
 				} else {
@@ -67,7 +67,7 @@
 				}
 		    }
 
-			public function offsetUnset($offset): void {
+			public function offsetUnset($offset) {
 		        if ($this->offsetExists($offset)) {
 		            unset($this->data[$offset]);
 		        }

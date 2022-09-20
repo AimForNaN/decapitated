@@ -32,4 +32,7 @@
 	assert($model->Hello instanceof Model);
 	assert($model['Hello'] instanceof Model);
 
+	foreach ($model->Hello as $item) {
+	}
+
 	echo "Success";
