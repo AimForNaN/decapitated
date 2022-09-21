@@ -6,21 +6,13 @@
          */
         class Base implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable  {
 			protected $data = [];
-			protected $delimiter = '/';
 
             function __construct(Array $data = []) {
 				$this->setData($data);
             }
 
-			public function __get ($offset) {
-				$ret = null;
-				if (isset($this->data[$offset])) {
-					$ret = $this->data[$offset];
-					if (is_array($ret)) {
-						return new static($ret);
-					}
-				}
-				return $ret;
+			public function __get($offset) {
+				return $this->offsetGet($offset);
 		    }
 
 			public function __set($offset, $value) {
@@ -48,21 +40,14 @@
 		    }
 
 			public function offsetGet($offset) {
-				$data = $this->data;
-				if (!\is_null($offset)) {
-					$offset = \array_filter(\explode($this->delimiter, (string)$offset));
-					foreach ($offset as $key) {
-						if (isset($data[$key])) {
-							$data = $data[$key];
-						} else {
-							$data = null;
-						}
-					}
-					if (\is_array($data)) {
-						return new static($data);
+                $ret = null;
+				if (isset($this->data[$offset])) {
+					$ret = $this->data[$offset];
+					if (\is_array($ret)) {
+						return new static($ret);
 					}
 				}
-				return $data;
+				return $ret;
 		    }
 
 			public function offsetSet($offset, $value) {
@@ -87,7 +72,7 @@
 				return $this->data;
 			}
 
-            public function valid () {
+            public function valid() {
                 $key = \key($this->data);
 				return isset($this->data[$key]);
 			}

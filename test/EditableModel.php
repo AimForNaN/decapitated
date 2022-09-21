@@ -26,13 +26,16 @@
 	$model['Yup'] = 'yupyup';
 	assert($model['Yup'] == 'yupyup');
 
-	$model['Hello/User'] = 'UserUser';
-	assert($model['Hello/User'] == 'UserUser');
+	$model['Hello']['User'] = 'UserUser';
+	assert($model['Hello']['User'] == 'UserUser');
 
 	assert($model->Hello instanceof Model);
 	assert($model['Hello'] instanceof Model);
 
 	foreach ($model->Hello as $item) {
 	}
+
+	$model = new Model(['Test']);
+	assert($model[0] == 'Test');
 
 	echo "Success";
